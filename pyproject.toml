@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "dbt-toolkit"
+name = "dbt-tool-kit"
 version = "1.0.0"
 description = ""
 authors = ["ahnsv <ahnsv@bc.edu>"]
