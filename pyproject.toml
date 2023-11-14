@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "dbt-toolkit"
+version = "1.0.0"
+description = ""
+authors = ["ahnsv <ahnsv@bc.edu>"]
+readme = "README.md"
+packages = [
+    { include = "dbttoolkit" },
+]
+
+[tool.poetry.scripts]
+dbt-toolkit = 'dbttoolkit.cli.main:app'
+
+[tool.poetry.dependencies]
+python = "^3.9"
+google-cloud-bigquery = "^3.13.0"
+sqlparse = "^0.4.4"
+typer = { extras = ["all"], version = "^0.9.0" }
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pre-commit = "^3.5.0"
+ruff = "^0.1.5"
+black = "^23.11.0"
+
+[tool.ruff]
+line-length = 119
+target-version = "py38"
+
+extend-select = [
+    "I", # Missing required import (auto-fixable)
+    "UP", # Pyupgrade
+    "PLC", # Pylint
+    "F",
+    "E",
+    "PD",
+    "PLE",
+    "RUF100", # Unused noqa (auto-fixable)    # implicit single-line string concatenation
+    "ISC001",
+    "D106",
+    "D2",
+    "D3",
+    # "D400", WIP: see #31135
+    # "D401", # Not enabled by ruff, but we don't want it
+    "D402",
+    "D403",
+    "D412",
+    "D419",
+    "UP035", # deprecated import: depreacted된 모듈 사용을 막습니다.
+]
+extend-ignore = [
+    "D203",
+    "D205",
+    "D212",
+    "D213",
+    "D214",
+    "D215",
+    "E501",
+    "E731",
+    "ISC001",
+    "UP030",
+    "PLE0604"
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
