@@ -31,9 +31,7 @@ def create_client() -> bigquery.Client:
     return bigquery_client
 
 
-def get_bq_table(
-    table_ref: Union[str, bigquery.TableReference], client: bigquery.Client = None
-) -> bigquery.Table:
+def get_bq_table(table_ref: Union[str, bigquery.TableReference], client: bigquery.Client = None) -> bigquery.Table:
     if not client:
         client = create_client()
     try:
@@ -43,9 +41,7 @@ def get_bq_table(
     return table_meta
 
 
-def check_if_table_exist(
-    table_ref: Union[str, bigquery.TableReference], client: bigquery.Client = None
-) -> bool:
+def check_if_table_exist(table_ref: Union[str, bigquery.TableReference], client: bigquery.Client = None) -> bool:
     if not client:
         client = create_client()
     table = get_bq_table(client=client, table_ref=table_ref)

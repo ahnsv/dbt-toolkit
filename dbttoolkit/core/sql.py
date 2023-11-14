@@ -32,9 +32,7 @@ def read_sql_file(sql_file_path: str) -> str:
         with open(sql_file_path) as f:
             sql = f.read()
     except FileNotFoundError:
-        raise SourceTransformFileNotFoundError(
-            message=f"파일을 찾을 수 없습니다\t[input file path: {sql_file_path}]", code=404
-        )
+        raise SourceTransformFileNotFoundError(message=f"파일을 찾을 수 없습니다\t[input file path: {sql_file_path}]", code=404)
 
     return sql
 
@@ -109,8 +107,7 @@ def extract_table_references(sql_query: str):
             names = [
                 token
                 for token in statement_.tokens
-                if token.ttype == sqlparse.tokens.Name
-                and match_table_reference(table_ref_like=token.value)
+                if token.ttype == sqlparse.tokens.Name and match_table_reference(table_ref_like=token.value)
             ]
             for name in names:
                 table_references.append(name)

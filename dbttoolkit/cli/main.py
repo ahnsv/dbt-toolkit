@@ -23,9 +23,7 @@ class dbtSourceNode:
 
     @classmethod
     def from_dict(cls, env):
-        return cls(
-            **{k: v for k, v in env.items() if k in inspect.signature(cls).parameters}
-        )
+        return cls(**{k: v for k, v in env.items() if k in inspect.signature(cls).parameters})
 
 
 class dbtSourceNodeSet:
@@ -34,17 +32,13 @@ class dbtSourceNodeSet:
         self.project_name = project_name
 
     def search_by_schema_and_table_name(self, schema: str, table_name: str):
-        value: dict[str, Any] | None = self.nodes.get(
-            f"source.{self.project_name}.{schema}.{table_name}"
-        )
+        value: dict[str, Any] | None = self.nodes.get(f"source.{self.project_name}.{schema}.{table_name}")
         if not value:
             return
         return dbtSourceNode.from_dict(value)
 
 
-@app.command(
-    help="convert a plain sql to dbt jinja sql, replacing existing source node with dbt expression"
-)
+@app.command(help="convert a plain sql to dbt jinja sql, replacing existing source node with dbt expression")
 def convert_to_dbt_jinja(sql_file_path: str, dbt_project_path: Path):
     sql = read_sql_file(sql_file_path)
     table_refs = extract_table_references(sql_query=sql)
@@ -60,13 +54,9 @@ def convert_to_dbt_jinja(sql_file_path: str, dbt_project_path: Path):
     )
     for table_ref in table_refs:
         project, dataset, table = table_ref.value.replace("`", "").split(".")
-        source_node = source_node_set.search_by_schema_and_table_name(
-            schema=dataset, table_name=table
-        )
+        source_node = source_node_set.search_by_schema_and_table_name(schema=dataset, table_name=table)
         if not source_node:
-            should_add = typer.confirm(
-                f"[Add] {table_ref.value} is not existing in manifest.json. Should we add it?"
-            )
+            should_add = typer.confirm(f"[Add] {table_ref.value} is not existing in manifest.json. Should we add it?")
             if should_add:
                 # TODO: add
                 ...
@@ -90,9 +80,7 @@ def update_source_from_dw(source_ref: str):
     raise NotImplementedError
 
 
-@app.command(
-    help="read your sql file, extract CTE statement and make dbt models out of them"
-)
+@app.command(help="read your sql file, extract CTE statement and make dbt models out of them")
 def extract_cte_to_model(sql_file: Path, model_name: str, should_replace: bool):
     raise NotImplementedError
 
