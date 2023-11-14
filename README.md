@@ -1,7 +1,16 @@
 # dbt Toolkit
 Swiss knife for everyday dbt works
 
+[![PyPI version](https://badge.fury.io/py/dbt-tool-kit.svg)](https://badge.fury.io/py/dbt-tool-kit)
+
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/dbt-tool-kit)
+
+![GitHub Repo stars](https://img.shields.io/github/stars/ahnsv/dbt-toolkit)
+
 ## Installation
+```shell
+pip install dbt-tool-kit
+```
 
 ## Usage
 ```shell
