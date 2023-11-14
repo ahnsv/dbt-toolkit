@@ -1,51 +1,45 @@
-default_language_version:
-  python: python3
-
-default_stages:
-  - commit
-
+---
+ci:
+  skip: [markdown-link-check]
+default_stages: [commit, push]
+minimum_pre_commit_version: "1.20.0"
 repos:
-  - repo: local
+  - repo: meta
     hooks:
-      - id: black
-        name: black
-        entry: poetry run black
-        language: system
-        types: [ python ]
-        require_serial: true
-      - id: ruff
-        name: ruff
-        entry: poetry run ruff
-        language: system
-        types: [ python ]
-        require_serial: true
-        args: [ --fix, --exit-non-zero-on-fix ]
+      - id: identity
+      - id: check-hooks-apply
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+    rev: v4.5.0
     hooks:
-      - id: check-added-large-files
-      - id: check-ast
-      - id: check-case-conflict
-      - id: check-docstring-first
-      - id: check-executables-have-shebangs
       - id: check-merge-conflict
       - id: check-toml
+      - id: check-yaml
       - id: debug-statements
-      - id: detect-private-key
       - id: end-of-file-fixer
-        exclude: \.noeof\. # Some tests require no EOF
-      - id: fix-encoding-pragma
-        args: [ "--remove" ]
       - id: mixed-line-ending
-        args: [ "--fix=lf" ]
       - id: trailing-whitespace
-  - repo: https://github.com/python-poetry/poetry
-    rev: '1.5.1'
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
     hooks:
-      - id: poetry-export
-        args:
-          - -f
-          - requirements.txt
-          - -o
-          - requirements.txt
-          - --without-hashes
+      - id: python-no-log-warn
+      - id: python-check-mock-methods
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.4
+    hooks:
+      - id: forbid-crlf
+      - id: remove-crlf
+      - id: forbid-tabs
+      - id: remove-tabs
+  - repo: https://github.com/psf/black
+    rev: 23.11.0
+    hooks:
+      - id: black
+        args: ["--config", "./pyproject.toml"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.1.5'
+    hooks:
+      - id: ruff

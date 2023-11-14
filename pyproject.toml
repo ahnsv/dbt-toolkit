@@ -63,6 +63,10 @@ extend-ignore = [
     "PLE0604"
 ]
 
+[tool.black]
+line-length = 119
+target-version = ['py39', 'py310', 'py311']
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
