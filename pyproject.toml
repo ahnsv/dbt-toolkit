@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dbt-tool-kit"
-version = "1.0.0"
+version = "1.0.1"
 description = ""
 authors = ["ahnsv <ahnsv@bc.edu>"]
 readme = "README.md"
