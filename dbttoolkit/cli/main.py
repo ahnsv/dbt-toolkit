@@ -4,11 +4,11 @@ import inspect
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
 import typer
 
-from dbttoolkit.core.io import read_sql_file
+from dbttoolkit.core.io import read_sql_file, write_sql_file
 from dbttoolkit.core.sql import extract_table_references
 
 app = typer.Typer()
@@ -39,7 +39,9 @@ class dbtSourceNodeSet:
 
 
 @app.command(help="convert a plain sql to dbt jinja sql, replacing existing source node with dbt expression")
-def convert_to_dbt_jinja(sql_file_path: str, dbt_project_path: Path):
+def convert_to_dbt_jinja(
+    sql_file_path: str, dbt_project_path: Path, in_place: Annotated[bool, typer.Option()] = False
+):
     sql = read_sql_file(sql_file_path)
     table_refs = extract_table_references(sql_query=sql)
 
@@ -69,8 +71,13 @@ def convert_to_dbt_jinja(sql_file_path: str, dbt_project_path: Path):
                 table_ref.value,
                 f"{{{{ source('{source_node.schema}', '{source_node.identifier}') }}}}",
             )
+    if not in_place:
+        print(sql)
+        return
 
-    print(sql)
+    # write sql file
+    write_sql_file(file=sql_file_path, new_sql_content=sql)
+    print(f"Changes have been made in [{sql_file_path}]")
 
 
 @app.command(
