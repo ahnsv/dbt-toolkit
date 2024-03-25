@@ -32,7 +32,9 @@ def read_sql_file(sql_file_path: str) -> str:
         with open(sql_file_path) as f:
             sql = f.read()
     except FileNotFoundError:
-        raise SourceTransformFileNotFoundError(message=f"파일을 찾을 수 없습니다\t[input file path: {sql_file_path}]", code=404)
+        raise SourceTransformFileNotFoundError(
+            message=f"파일을 찾을 수 없습니다\t[input file path: {sql_file_path}]", code=404
+        )
 
     return sql
 
